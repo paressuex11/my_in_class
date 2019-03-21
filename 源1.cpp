@@ -202,7 +202,7 @@ public:
 			cout << endl;
 		}
 
-	}
+	}//heandm
 	Matrix transpose() {
 		Matrix temp(this->columns, this->rows);
 		for (int i = 0; i < temp.rows; ++i) {
