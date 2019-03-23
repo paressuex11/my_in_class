@@ -171,6 +171,7 @@ public:
 		this->rows = rows;
 		this->columns = column;
 		this->values = new double[rows*column];
+		if (!values) return;
 		for (int i = 0; i < rows * column; ++i) {
 			this->values[i] = values[i];
 		}
@@ -212,7 +213,9 @@ public:
 		}
 		return temp;
 	}
-
+	void printt() {
+		cout << rows;
+	}
 };
 
 Matrix read() {
@@ -225,13 +228,12 @@ Matrix read() {
 	}
 	Matrix matrix(rows, columns, values);
 	return matrix;
-}
+}//
 
 int main() {
-	Matrix matrix = read(); // calls copy constructor 
+	Matrix matrix(1, 1, NULL); // calls copy constructor 
 	matrix.print();
-	cout << endl;
-
-	matrix.transpose().print();
+	std::cout << endl;
+	matrix.printt();
 	system("pause");
 }
