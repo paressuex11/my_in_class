@@ -228,7 +228,7 @@ Matrix read() {
 	}
 	Matrix matrix(rows, columns, values);
 	return matrix;
-}//
+}
 
 int main() {
 	Matrix matrix(1, 1, NULL); // calls copy constructor 
