@@ -171,7 +171,13 @@ public:
 		this->rows = rows;
 		this->columns = column;
 		this->values = new double[rows*column];
-		if (!values) return;
+		if (!(this->values)) return;
+		if (!values) {
+			for (int i = 0; i < rows * column; ++i) {
+				this->values[i] = 0;
+			}
+			return;
+		}
 		for (int i = 0; i < rows * column; ++i) {
 			this->values[i] = values[i];
 		}
