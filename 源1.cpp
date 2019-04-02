@@ -8,10 +8,15 @@
 #include <stack>
 #include <vector>
 using namespace std;
+class A;
+
 template <class T>
 T add(T T1, T T2) {
 	return T1 + T2;
 }
+//写模板类的时候，先写一个普通类的版本,便于调试
+
+
 class A {
 public:
 	int *a;
