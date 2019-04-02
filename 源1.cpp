@@ -311,25 +311,88 @@ void replace(string& source, string sub, string that) {
 //	return 0;
 //}
 
+//#include <iostream>
+//using namespace std;
+//class Matrix {
+//private:
+//	int rows;
+//	int columns;
+//	double *values;
+//public:
+//	Matrix(int rows, int column, double values[]) {
+//		this->rows = rows;
+//		this->columns = column;
+//		this->values = new double[rows*column];
+//		if (!(this->values)) return;
+//		if (!values) {
+//			for (int i = 0; i < rows * column; ++i) {
+//				this->values[i] = 0;
+//			}
+//			return;
+//		}
+//		for (int i = 0; i < rows * column; ++i) {
+//			this->values[i] = values[i];
+//		}
+//	}
+//	Matrix(int rows, int column) {
+//		this->rows = rows;
+//		this->columns = column;
+//		this->values = new double[rows*column];
+//		for (int i = 0; i < rows * column; ++i) {
+//			this->values[i] = 0;
+//		}
+//	}
+//	Matrix(const Matrix& m2) {
+//		this->columns = m2.columns;
+//		this->rows = m2.rows;
+//		this->values = new double[this->rows * this->columns];
+//		for (int i = 0; i < m2.rows * m2.columns; ++i) {
+//			this->values[i] = m2.values[i];
+//		}
+//	}
+//	~Matrix() {
+//		delete[] this->values;
+//	}
+//	void print() const {
+//		for (int i = 0; i < this->rows; ++i) {
+//			for (int j = 0; j < this->columns; ++j) {
+//				cout << "    " << this->values[this->columns * i + j];
+//			}
+//			cout << endl;
+//		}
+//
+//	}//heandm
+//	Matrix transpose() {
+//		Matrix temp(this->columns, this->rows);
+//		for (int i = 0; i < temp.rows; ++i) {
+//			for (int j = 0; j < temp.columns; ++j) {
+//				temp.values[i*temp.columns + j] = this->values[j * this->columns + i];
+//			}
+//		}
+//		return temp;
+//	}
+//	void printt() {
+//		cout << rows;
+//	}
+//};
 #include <iostream>
 using namespace std;
+#define maxx(a, b) (a >= b ? a : b)
+#define minn(a, b) (a <= b ? a : b)
+template <class Type>
 class Matrix {
 private:
 	int rows;
 	int columns;
-	double *values;
+	vector<Type> values;
 public:
-	Matrix(int rows, int column, double values[]) {
+	Matrix(int rows, int column, const vector<Type>& vec) {
 		this->rows = rows;
 		this->columns = column;
-		this->values = new double[rows*column];
-		if (!(this->values)) return;
-		if (!values) {
-			for (int i = 0; i < rows * column; ++i) {
-				this->values[i] = 0;
-			}
-			return;
-		}
+		Type* new_one = new Type[rows*column];
+		this->values = vec;
+		
+		
 		for (int i = 0; i < rows * column; ++i) {
 			this->values[i] = values[i];
 		}
@@ -337,21 +400,30 @@ public:
 	Matrix(int rows, int column) {
 		this->rows = rows;
 		this->columns = column;
-		this->values = new double[rows*column];
+		Type* new_one = new Type[rows*column];
+		vector<Type> vec (new_one, new_one + rows * column);
+		this->values = vec;
+		delete[] new_one;
 		for (int i = 0; i < rows * column; ++i) {
 			this->values[i] = 0;
 		}
 	}
+	Type& get(int x, int y) {
+		return this->values[(x - 1) * this->columns + y - 1];
+	}
 	Matrix(const Matrix& m2) {
 		this->columns = m2.columns;
 		this->rows = m2.rows;
-		this->values = new double[this->rows * this->columns];
+		Type* new_one = new Type[m2.columns * m2.rows];
+		vector<Type> vec(new_one, new_one + this->rows * this->columns);
+		this->values = vec;
+		delete[] new_one;
 		for (int i = 0; i < m2.rows * m2.columns; ++i) {
 			this->values[i] = m2.values[i];
 		}
 	}
 	~Matrix() {
-		delete[] this->values;
+		this->values.clear();
 	}
 	void print() const {
 		for (int i = 0; i < this->rows; ++i) {
@@ -361,8 +433,50 @@ public:
 			cout << endl;
 		}
 
-	}//heandm
-	Matrix transpose() {
+	}
+	Matrix concatenateRows(const Matrix & matrix2) const {
+		Matrix temp(this->rows + matrix2.rows, this->columns);
+		for (int i = 0; i < this->rows * this->columns; ++i) {
+			temp.values[i] = this->values[i];
+		}
+		int j = 0;
+		for (int i = this->rows*this->columns; i < temp.columns * temp.rows; ++i, ++j) {
+			temp.values[i] = matrix2.values[j];
+		}
+		return temp;
+	}
+	Matrix concatenateColumns(const Matrix & matrix2) const {
+		Matrix temp(this->rows, this->columns + matrix2.columns);
+		for (int i = 0; i < this->rows; ++i) {
+			for (int j = 0; j < this->columns; ++j) {
+				temp.values[i *temp.columns + j] = this->values[i * this->columns + j];
+			}
+		}
+
+		for (int i = 0; i < this->rows; ++i) {
+			int k = 0;
+			for (int j = this->columns; j < temp.columns; ++j, ++k) {
+				temp.values[i *temp.columns + j] = matrix2.values[i*this->columns + k];
+			}
+		}
+		return temp;
+	}
+	Matrix getRow(int row) const {
+		Matrix temp(1, this->columns);
+		for (int i = 0; i < this->columns; ++i) {
+			temp.values[i] = this->values[(row - 1) * this->columns + i];
+		}
+		return temp;
+	}
+
+	Matrix getColumn(int column) const {
+		Matrix temp(this->rows, 1);
+		for (int i = 0; i < this->rows; ++i) {
+			temp.values[i] = this->values[i * this->columns + column - 1];
+		}
+		return temp;
+	}
+	Matrix transpose() const {
 		Matrix temp(this->columns, this->rows);
 		for (int i = 0; i < temp.rows; ++i) {
 			for (int j = 0; j < temp.columns; ++j) {
@@ -371,32 +485,229 @@ public:
 		}
 		return temp;
 	}
-	void printt() {
-		cout << rows;
+	Matrix operator *(Type value) const {
+		Matrix temp(this->rows, this->columns, this->values);
+		for (int i = 0; i < temp.columns * temp.rows; ++i) {
+			temp.values[i] *= value;
+		}
+		return temp;
+	}
+	Matrix operator +(Type value) const {
+		Matrix temp(this->rows, this->columns, this->values);
+		for (int i = 0; i < temp.columns * temp.rows; ++i) {
+			temp.values[i] += value;
+		}
+		return temp;
+	}
+	Matrix operator +(const Matrix& matrix2) const {
+		Matrix temp(this->rows, this->columns, this->values);
+		for (int i = 0; i < temp.columns * temp.rows; ++i) {
+			temp.values[i] += matrix2.values[i];
+		}
+		return temp;
+	}
+	Matrix operator -(Type value) const {
+		Matrix temp(this->rows, this->columns, this->values);
+		for (int i = 0; i < temp.columns * temp.rows; ++i) {
+			temp.values[i] -= value;
+		}
+		return temp;
+	}
+	Matrix operator -(const Matrix& matrix2) const {
+		Matrix temp(this->rows, this->columns, this->values);
+		for (int i = 0; i < temp.columns * temp.rows; ++i) {
+			temp.values[i] -= matrix2.values[i];
+		}
+		return temp;
+	}
+	Matrix operator * (const Matrix & matrix2) const {
+		Matrix temp(this->rows, matrix2.columns);
+		for (int i = 0; i < temp.rows; ++i) {
+			for (int j = 0; j < temp.columns; ++j) {
+				for (int k = 0; k < this->columns; ++k) {
+					temp.values[i * temp.columns + j] += this->values[i * this->columns + k] * matrix2.values[k * matrix2.columns + j];
+				}
+			}
+		}
+		return temp;
+	}
+	Matrix reshape(int rows, int columns) const {
+		Matrix temp(rows, columns);
+		Type* values = new Type[this->rows * this->columns];
+		int k = 0;
+		for (int j = 0; j < this->columns; ++j) {
+			for (int i = 0; i < this->rows; ++i, ++k) {
+				values[k] = this->values[i * this->columns + j];
+			}
+		}
+		k = 0;
+		for (int j = 0; j < temp.columns; ++j) {
+			for (int i = 0; i < temp.rows; ++i, ++k) {
+				temp.values[i * temp.columns + j] = values[k];
+			}
+		}
+		return temp;
+	}
+	bool whether_vector() const {
+		if (this->rows == 1 || this->columns == 1) {
+			return true;
+		}
+		else return false;
+	}
+	Matrix max() const {
+		if (this->whether_vector()) {
+			int maxxx = this->values[0];
+			for (int i = 1; i < maxx(this->rows, this->columns); ++i) {
+				if (this->values[i] > maxxx) maxxx = this->values[i];
+			}
+			Matrix temp(1, 1);
+			temp.values[0] = maxxx;
+			return temp;
+		}
+		else {
+			Matrix temp(1, this->columns);
+			for (int j = 0; j < this->columns; ++j) {
+				temp.values[j] = this->values[j];
+				for (int i = 0; i < this->rows; ++i) {
+					if (this->values[i*this->columns + j] > temp.values[j]) temp.values[j] = this->values[i * this->columns + j];
+				}
+			}
+
+			return temp;
+		}
+
+	}
+	Matrix min() const {
+		if (this->whether_vector()) {
+			int minnn = this->values[0];
+			for (int i = 1; i < maxx(this->rows, this->columns); ++i) {
+				if (this->values[i] < minnn) minnn = this->values[i];
+			}
+			Matrix temp(1, 1);
+			temp.values[0] = minnn;
+			return temp;
+		}
+		else {
+			Matrix temp(1, this->columns);
+			for (int j = 0; j < this->columns; ++j) {
+				temp.values[j] = this->values[j];
+				for (int i = 0; i < this->rows; ++i) {
+					if (this->values[i*this->columns + j] < temp.values[j]) temp.values[j] = this->values[i * this->columns + j];
+				}
+			}
+
+			return temp;
+		}
+	}
+	Matrix sum()const {
+		if (this->whether_vector()) {
+			int sum = this->values[0];
+			for (int i = 1; i < maxx(this->rows, this->columns); ++i) {
+				sum += this->values[i];
+			}
+			Matrix temp(1, 1);
+			temp.values[0] = sum;
+			return temp;
+		}
+		else {
+			Matrix temp(1, this->columns);
+			for (int j = 0; j < this->columns; ++j) {
+				for (int i = 0; i < this->rows; ++i) {
+					temp.values[j] += this->values[i * this->columns + j];
+				}
+			}
+			return temp;
+		}
 	}
 };
 
-
+//int main() {
+//	Book book1("C++", "3849720", 2010);
+//	Course course1("Claudio", 4, book1);
+//	/*Book book2("Python", "3849721", 2012);
+//	Course course2("Nicholas", 4, book2);
+//	Book book3("advanced_mathematics", "3849722", 2016);
+//	Course course3("Sourav", 4, book3);*/
+//	
+//	/*course2.Show();
+//	course3.Show();*/
+//	Book book2("C++ Primer Plus", "978-5-115", 2012);
+//	course1.add_refer_book(book2);
+//	Student stu1(0, "handx");
+//	Student stu2(1, "handxx");
+//	Student stu3(2, "handxxx");
+//	course1.add_student(stu1);
+//	course1.add_student(stu2);
+//	course1.add_student(stu3);
+//	course1.Show();
+//	course1.show_books();
+//	course1.show_students();
+//	return 0;
+//}
 int main() {
-	Book book1("C++", "3849720", 2010);
-	Course course1("Claudio", 4, book1);
-	/*Book book2("Python", "3849721", 2012);
-	Course course2("Nicholas", 4, book2);
-	Book book3("advanced_mathematics", "3849722", 2016);
-	Course course3("Sourav", 4, book3);*/
-	
-	/*course2.Show();
-	course3.Show();*/
-	Book book2("C++ Primer Plus", "978-5-115", 2012);
-	course1.add_refer_book(book2);
-	Student stu1(0, "handx");
-	Student stu2(1, "handxx");
-	Student stu3(2, "handxxx");
-	course1.add_student(stu1);
-	course1.add_student(stu2);
-	course1.add_student(stu3);
-	course1.Show();
-	course1.show_books();
-	course1.show_students();
-	return 0;
+	cout << "constructor 1" << endl;
+	Matrix<double> matrix1(3, 3);
+	matrix1.print();
+
+	const double values1[] = {
+		1, 2, 3,
+		4, 5, 6,
+		7, 8, 9,
+	};
+	vector<double> values2;
+	for (int i = 0; i < 9; ++i) {
+		values2.push_back(values1[i]);
+	}
+
+	cout << "constructor 2" << endl;
+	Matrix<double> matrix2(3, 3, values2);
+	matrix2.print();
+
+	cout << "copy constructor" << endl;
+	Matrix<double> matrix3 = matrix2;
+	matrix3.print();
+
+	cout << "operator =" << endl;
+	matrix3.get(1, 1) = 10.0;
+	matrix3 = matrix2;
+	matrix3.print();
+
+	cout << "getColumn" << endl;
+	matrix2.getColumn(2).print();
+	cout << "getRow" << endl;
+	matrix2.getRow(2).print();
+
+	cout << "concatenateRows" << endl;
+	matrix1.concatenateRows(matrix2).print();
+	cout << "concatenateColumns" << endl;
+	matrix1.concatenateColumns(matrix2).print();
+
+	cout << "reshape" << endl;
+	matrix1.concatenateColumns(matrix2).
+		reshape(6, 3).print();
+
+	cout << "transpose" << endl;
+	matrix2.transpose().print();
+
+	cout << "operator +" << endl;
+	(matrix2 + matrix2).print();
+	cout << "operator +" << endl;
+	(matrix2 + 10).print();
+	cout << "operator -" << endl;
+	(matrix2.transpose() - matrix2).print();
+	cout << "operator -" << endl;
+	(matrix2 - 10).print();
+
+	cout << "operator *" << endl;
+	(matrix2.transpose() * matrix2).print();
+	cout << "operator *" << endl;
+	(matrix2 * 2).print();
+
+	cout << "max" << endl;
+	cout << matrix2.max().max().get(1, 1) << endl;
+	cout << "min" << endl;
+	cout << matrix2.min().min().get(1, 1) << endl;
+	cout << "sum" << endl;
+	cout << matrix2.sum().sum().get(1, 1) << endl;
+	system("pause");
 }
