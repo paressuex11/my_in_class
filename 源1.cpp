@@ -389,9 +389,7 @@ public:
 	Matrix(int rows, int column, const vector<Type>& vec) {
 		this->rows = rows;
 		this->columns = column;
-		Type* new_one = new Type[rows*column];
 		this->values = vec;
-		
 		
 		for (int i = 0; i < rows * column; ++i) {
 			this->values[i] = values[i];
@@ -556,7 +554,7 @@ public:
 	}
 	Matrix max() const {
 		if (this->whether_vector()) {
-			int maxxx = this->values[0];
+			Type maxxx = this->values[0];
 			for (int i = 1; i < maxx(this->rows, this->columns); ++i) {
 				if (this->values[i] > maxxx) maxxx = this->values[i];
 			}
@@ -579,7 +577,7 @@ public:
 	}
 	Matrix min() const {
 		if (this->whether_vector()) {
-			int minnn = this->values[0];
+			Type minnn = this->values[0];
 			for (int i = 1; i < maxx(this->rows, this->columns); ++i) {
 				if (this->values[i] < minnn) minnn = this->values[i];
 			}
@@ -601,7 +599,7 @@ public:
 	}
 	Matrix sum()const {
 		if (this->whether_vector()) {
-			int sum = this->values[0];
+			Type sum = this->values[0];
 			for (int i = 1; i < maxx(this->rows, this->columns); ++i) {
 				sum += this->values[i];
 			}
@@ -644,70 +642,77 @@ public:
 //	course1.show_students();
 //	return 0;
 //}
+//int main() {
+//	cout << "constructor 1" << endl;
+//	Matrix<double> matrix1(3, 3);
+//	matrix1.print();
+//
+//	const double values1[] = {
+//		1, 2, 3,
+//		4, 5, 6,
+//		7, 8, 9,
+//	};
+//	vector<double> values2;
+//	for (int i = 0; i < 9; ++i) {
+//		values2.push_back(values1[i]);
+//	}
+//
+//	cout << "constructor 2" << endl;
+//	Matrix<double> matrix2(3, 3, values2);
+//	matrix2.print();
+//
+//	cout << "copy constructor" << endl;
+//	Matrix<double> matrix3 = matrix2;
+//	matrix3.print();
+//
+//	cout << "operator =" << endl;
+//	matrix3.get(1, 1) = 10.0;
+//	matrix3 = matrix2;
+//	matrix3.print();
+//
+//	cout << "getColumn" << endl;
+//	matrix2.getColumn(2).print();
+//	cout << "getRow" << endl;
+//	matrix2.getRow(2).print();
+//
+//	cout << "concatenateRows" << endl;
+//	matrix1.concatenateRows(matrix2).print();
+//	cout << "concatenateColumns" << endl;
+//	matrix1.concatenateColumns(matrix2).print();
+//
+//	cout << "reshape" << endl;
+//	matrix1.concatenateColumns(matrix2).
+//		reshape(6, 3).print();
+//
+//	cout << "transpose" << endl;
+//	matrix2.transpose().print();
+//
+//	cout << "operator +" << endl;
+//	(matrix2 + matrix2).print();
+//	cout << "operator +" << endl;
+//	(matrix2 + 10).print();
+//	cout << "operator -" << endl;
+//	(matrix2.transpose() - matrix2).print();
+//	cout << "operator -" << endl;
+//	(matrix2 - 10).print();
+//
+//	cout << "operator *" << endl;
+//	(matrix2.transpose() * matrix2).print();
+//	cout << "operator *" << endl;
+//	(matrix2 * 2).print();
+//
+//	cout << "max" << endl;
+//	cout << matrix2.max().max().get(1, 1) << endl;
+//	cout << "min" << endl;
+//	cout << matrix2.min().min().get(1, 1) << endl;
+//	cout << "sum" << endl;
+//	cout << matrix2.sum().sum().get(1, 1) << endl;
+//	system("pause");
+//}
+int a = 0;
 int main() {
-	cout << "constructor 1" << endl;
-	Matrix<double> matrix1(3, 3);
-	matrix1.print();
-
-	const double values1[] = {
-		1, 2, 3,
-		4, 5, 6,
-		7, 8, 9,
-	};
-	vector<double> values2;
-	for (int i = 0; i < 9; ++i) {
-		values2.push_back(values1[i]);
-	}
-
-	cout << "constructor 2" << endl;
-	Matrix<double> matrix2(3, 3, values2);
-	matrix2.print();
-
-	cout << "copy constructor" << endl;
-	Matrix<double> matrix3 = matrix2;
-	matrix3.print();
-
-	cout << "operator =" << endl;
-	matrix3.get(1, 1) = 10.0;
-	matrix3 = matrix2;
-	matrix3.print();
-
-	cout << "getColumn" << endl;
-	matrix2.getColumn(2).print();
-	cout << "getRow" << endl;
-	matrix2.getRow(2).print();
-
-	cout << "concatenateRows" << endl;
-	matrix1.concatenateRows(matrix2).print();
-	cout << "concatenateColumns" << endl;
-	matrix1.concatenateColumns(matrix2).print();
-
-	cout << "reshape" << endl;
-	matrix1.concatenateColumns(matrix2).
-		reshape(6, 3).print();
-
-	cout << "transpose" << endl;
-	matrix2.transpose().print();
-
-	cout << "operator +" << endl;
-	(matrix2 + matrix2).print();
-	cout << "operator +" << endl;
-	(matrix2 + 10).print();
-	cout << "operator -" << endl;
-	(matrix2.transpose() - matrix2).print();
-	cout << "operator -" << endl;
-	(matrix2 - 10).print();
-
-	cout << "operator *" << endl;
-	(matrix2.transpose() * matrix2).print();
-	cout << "operator *" << endl;
-	(matrix2 * 2).print();
-
-	cout << "max" << endl;
-	cout << matrix2.max().max().get(1, 1) << endl;
-	cout << "min" << endl;
-	cout << matrix2.min().min().get(1, 1) << endl;
-	cout << "sum" << endl;
-	cout << matrix2.sum().sum().get(1, 1) << endl;
+	
+	
 	system("pause");
+	return 0;
 }
