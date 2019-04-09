@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stack>
 #include <vector>
+#pragma warning(disable:4996)
 using namespace std;
 class A;
 
@@ -709,10 +710,13 @@ public:
 //	cout << matrix2.sum().sum().get(1, 1) << endl;
 //	system("pause");
 //}
-int a = 0;
-int main() {
-	
-	
-	system("pause");
-	return 0;
-}
+//int a = 0;
+//int main() {
+//	
+//	switch () {
+//
+//	}
+//	system("pause");
+//	return 0;
+//}
+
