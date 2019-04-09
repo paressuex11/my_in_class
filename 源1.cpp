@@ -38,151 +38,151 @@ public:
 		return new_one;
 	}
 };
-class Student {
-private:
-	int number_;//学号
-	std::string name_;//名字
-public:
-	Student(int number = 0, const std::string& name = "") {
-		this->number_ = number;
-		this->name_ = name;
-	}
-	Student(const Student& stu2) {
-		this->number_ = stu2.number_;
-		this->name_ = stu2.name_;
-	}
-	void SetStudent(int number, const std::string& name) {
-		this->number_ = number;
-		this->name_ = name;
-	}
-	std::string GetName() const {
-		return this->name_;
-	}
-	int GetNum() const {
-		return this->number_;
-	}
-	void Show() const {
-		std::cout << "ID: " <<this->number_ << "  Name: " << this->name_ <<std::endl;
-	}
-};
-class Book {
-private:
-	std::string title_;
-	std::string ISBN_;
-	int year_;
-public:
-	
-	Book(const std::string& title = "", const std::string& isbn = "", int year = 0) {
-		this->title_ = title;
-		this->ISBN_ = isbn;
-		this->year_ = year;
-	}
-	Book(const Book& book2) {
-		this->title_ = book2.title_;
-		this->ISBN_ = book2.ISBN_;
-		this->year_ = book2.year_;
-	}
-	Book& operator=(const Book& book2) {
-		this->title_ = book2.title_;
-		this->ISBN_ = book2.ISBN_;
-		this->year_ = book2.year_;
-		return *this;
-	}
-	std::string GetTitle() const {
-		return this->title_;
-	}
-	std::string GetISBN() const {
-		return this->ISBN_;
-	}
-	int GetYear() const {
-		return this->year_;
-	}
-	void SetBook(const std::string& title, const std::string& isbn, int year) {
-		this->title_ = title;
-		this->ISBN_ = isbn;
-		this->year_ = year;
-	}
-	void Show() const {
-		std::cout << "title: "<<this->title_ << "  ISBN: " <<this->ISBN_ << "  Publishing_reign: " << this->year_ << std::endl;
-	}
-};
-class Course {
-private:
-	std::string teacher_name_;  //教师姓名
-	int year_;         //学年
-	Book book_;         //教科书
-	static int count_;  //课程数量
-	Student *students_;
-	Book *reference_books_;
-	int number_of_books;
-	int number_of_students;
-	void copy(const Course& course2) {
-		this->teacher_name_ = course2.teacher_name_;
-		this->year_ = course2.year_;
-		this->book_ = course2.book_;
-		this->number_of_books = course2.number_of_books;
-		this->number_of_students = course2.number_of_students;
-		this->students_ = new Student[10];
-		for (int i = 0; i < this->number_of_students; ++i) {
-			this->students_[i] = course2.students_[i];
-		}
-		this->reference_books_ = new Book[2];
-		for (int i = 0; i < this->number_of_books; ++i) {
-			this->reference_books_[i] = course2.reference_books_[i];
-		}
-	}
-public:
-	Course(const std::string& t_name, int year, const Book& book) {
-		this->teacher_name_ = t_name;
-		this->year_ = year;
-		this->book_ = book;
-		this->students_ = new Student[10];
-		this->reference_books_ = new Book[2];
-		this->reference_books_[0] = book;
-		this->number_of_books = 1;
-		this->number_of_students = 0;
-		Course::count_++;
-	}
-	Course(const Course& course2) {
-		this->copy(course2);
-		Course::count_++;
-	}
-	Course& operator= (const Course& course2) {
-		this->copy(course2);
-		Course::count_++;
-		return *this;
-	}
-	~Course() {
-		delete[] this->reference_books_;
-		delete[] this->students_;
-	}
-	void add_student(const Student& stu) {
-		this->students_[this->number_of_students] = stu;
-		this->number_of_students++;
-	}
-	void add_refer_book(const Book& book) {
-		this->reference_books_[this->number_of_books] = book;
-		this->number_of_books++;
-	}
-
-	void Show() const{
-		std::cout << "Course:" << this->book_.GetTitle() << "  " << "Teacher:" << this->teacher_name_ << "  " << "ISBN:" << this->book_.GetISBN() << "  " << "Publishing_reign:" << this->book_.GetYear() << "  " << "academic_years:" << this->year_ << std::endl;
-	}
-	void show_students() const{
-		std::cout << "Students:" << std::endl;
-		for (int i = 0; i < this->number_of_students; ++i) {
-			this->students_[i].Show();
-		}
-	}
-	void show_books() const {
-		std::cout << "References_books:" << std::endl;
-		for (int i = 0; i < this->number_of_books; ++i) {
-			this->reference_books_[i].Show();
-		}
-	}
-	
-};
-int Course::count_ = 0;
+//class Student {
+//private:
+//	int number_;//学号
+//	std::string name_;//名字
+//public:
+//	Student(int number = 0, const std::string& name = "") {
+//		this->number_ = number;
+//		this->name_ = name;
+//	}
+//	Student(const Student& stu2) {
+//		this->number_ = stu2.number_;
+//		this->name_ = stu2.name_;
+//	}
+//	void SetStudent(int number, const std::string& name) {
+//		this->number_ = number;
+//		this->name_ = name;
+//	}
+//	std::string GetName() const {
+//		return this->name_;
+//	}
+//	int GetNum() const {
+//		return this->number_;
+//	}
+//	void Show() const {
+//		std::cout << "ID: " <<this->number_ << "  Name: " << this->name_ <<std::endl;
+//	}
+//};
+//class Book {
+//private:
+//	std::string title_;
+//	std::string ISBN_;
+//	int year_;
+//public:
+//	
+//	Book(const std::string& title = "", const std::string& isbn = "", int year = 0) {
+//		this->title_ = title;
+//		this->ISBN_ = isbn;
+//		this->year_ = year;
+//	}
+//	Book(const Book& book2) {
+//		this->title_ = book2.title_;
+//		this->ISBN_ = book2.ISBN_;
+//		this->year_ = book2.year_;
+//	}
+//	Book& operator=(const Book& book2) {
+//		this->title_ = book2.title_;
+//		this->ISBN_ = book2.ISBN_;
+//		this->year_ = book2.year_;
+//		return *this;
+//	}
+//	std::string GetTitle() const {
+//		return this->title_;
+//	}
+//	std::string GetISBN() const {
+//		return this->ISBN_;
+//	}
+//	int GetYear() const {
+//		return this->year_;
+//	}
+//	void SetBook(const std::string& title, const std::string& isbn, int year) {
+//		this->title_ = title;
+//		this->ISBN_ = isbn;
+//		this->year_ = year;
+//	}
+//	void Show() const {
+//		std::cout << "title: "<<this->title_ << "  ISBN: " <<this->ISBN_ << "  Publishing_reign: " << this->year_ << std::endl;
+//	}
+//};
+//class Course {
+//private:
+//	std::string teacher_name_;  //教师姓名
+//	int year_;         //学年
+//	Book book_;         //教科书
+//	static int count_;  //课程数量
+//	Student *students_;
+//	Book *reference_books_;
+//	int number_of_books;
+//	int number_of_students;
+//	void copy(const Course& course2) {
+//		this->teacher_name_ = course2.teacher_name_;
+//		this->year_ = course2.year_;
+//		this->book_ = course2.book_;
+//		this->number_of_books = course2.number_of_books;
+//		this->number_of_students = course2.number_of_students;
+//		this->students_ = new Student[10];
+//		for (int i = 0; i < this->number_of_students; ++i) {
+//			this->students_[i] = course2.students_[i];
+//		}
+//		this->reference_books_ = new Book[2];
+//		for (int i = 0; i < this->number_of_books; ++i) {
+//			this->reference_books_[i] = course2.reference_books_[i];
+//		}
+//	}
+//public:
+//	Course(const std::string& t_name, int year, const Book& book) {
+//		this->teacher_name_ = t_name;
+//		this->year_ = year;
+//		this->book_ = book;
+//		this->students_ = new Student[10];
+//		this->reference_books_ = new Book[2];
+//		this->reference_books_[0] = book;
+//		this->number_of_books = 1;
+//		this->number_of_students = 0;
+//		Course::count_++;
+//	}
+//	Course(const Course& course2) {
+//		this->copy(course2);
+//		Course::count_++;
+//	}
+//	Course& operator= (const Course& course2) {
+//		this->copy(course2);
+//		Course::count_++;
+//		return *this;
+//	}
+//	~Course() {
+//		delete[] this->reference_books_;
+//		delete[] this->students_;
+//	}
+//	void add_student(const Student& stu) {
+//		this->students_[this->number_of_students] = stu;
+//		this->number_of_students++;
+//	}
+//	void add_refer_book(const Book& book) {
+//		this->reference_books_[this->number_of_books] = book;
+//		this->number_of_books++;
+//	}
+//
+//	void Show() const{
+//		std::cout << "Course:" << this->book_.GetTitle() << "  " << "Teacher:" << this->teacher_name_ << "  " << "ISBN:" << this->book_.GetISBN() << "  " << "Publishing_reign:" << this->book_.GetYear() << "  " << "academic_years:" << this->year_ << std::endl;
+//	}
+//	void show_students() const{
+//		std::cout << "Students:" << std::endl;
+//		for (int i = 0; i < this->number_of_students; ++i) {
+//			this->students_[i].Show();
+//		}
+//	}
+//	void show_books() const {
+//		std::cout << "References_books:" << std::endl;
+//		for (int i = 0; i < this->number_of_books; ++i) {
+//			this->reference_books_[i].Show();
+//		}
+//	}
+//	
+//};
+//int Course::count_ = 0;
 class node {
 public:
 	string label;
@@ -713,10 +713,49 @@ public:
 //int a = 0;
 //int main() {
 //	
-//	switch () {
+//	cout << "wohaoshuai";
 //
-//	}
 //	system("pause");
 //	return 0;
 //}
+//
 
+//contacts
+class Student {
+private:
+	string name;
+	string nickname;
+	string phone_number;
+
+public:
+	Student(const string& name = "", const string& nickname = "", const string& phone_number = "") {
+		this->name = name;
+		this->nickname = nickname;
+		this->phone_number = phone_number;
+	}
+};
+
+class Contacts {
+private:
+	vector<Student> contact;
+public:
+	void add(){
+	
+	}
+	void remove() {
+	
+	}
+	void load(const string& filename) {
+		cout << "鸡你太美！";
+	}
+	void save() {
+
+	}
+};
+
+int main() {
+	Student();
+	
+	system("pause");
+	return 0;
+}
