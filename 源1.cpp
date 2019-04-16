@@ -721,41 +721,57 @@ public:
 //
 
 //contacts
-class Student {
-private:
-	string name;
-	string nickname;
-	string phone_number;
+//class Student {
+//private:
+//	string name;
+//protected:
+//	string nickname;
+//public:
+//	string phone_number;
+//	friend ostream& operator<<(ostream&, const Student& stu);
+//public:
+//	Student(const string& name = "", const string& nickname = "", const string& phone_number = "") {
+//		this->name = name;
+//		this->nickname = nickname;
+//		this->phone_number = phone_number;
+//	}
+//};
+//ostream& operator<<(ostream& out, const Student& stu) {
+//	out << stu.name << endl;
+//	out << stu.nickname << endl;
+//	out << stu.phone_number << endl;
+//	return out;
+//}
+//
+//class Stu : public Student {
+//	void print() {
+//		
+//	}
+//};
+//
+//int main() {
+//	Student();
+//	
+//	system("pause");
+//	return 0;
+//}
 
-public:
-	Student(const string& name = "", const string& nickname = "", const string& phone_number = "") {
-		this->name = name;
-		this->nickname = nickname;
-		this->phone_number = phone_number;
-	}
-};
+//多态只会发生在指针和引用里 down-casting：父类的指针可以接受子类的地址，在函数中也是这样
+//多态只会发生在指针和引用里 down-casting：父类的指针可以接受子类的地址，在函数中也是这样
+//指针指向的函数如果不是虚函数会调用基类的函数，如果是虚函数会检测指向对象的类型来调用子类的函数
+//也可以用类名+ :: 来限定调用的函数是谁，为了多态还是别这样...
+//继承以后子类的同名虚函数不用加virtual关键字，编译器自动加
+//函数的动态匹配: 主要是因为虚函数以及继承的原因无法在编译时确定函数是谁，virtual关键字相当于函数动态匹配的开关
 
-class Contacts {
-private:
-	vector<Student> contact;
-public:
-	void add(){
-	
-	}
-	void remove() {
-	
-	}
-	void load(const string& filename) {
-		cout << "鸡你太美！";
-	}
-	void save() {
 
-	}
-};
+
+#include <vector>
+#include <string>
+using namespace std;
+
 
 int main() {
-	Student();
-	
+	system("python C:/Users/11385/Desktop/Lisaru.py");
+	cout << "helloworld";
 	system("pause");
-	return 0;
 }
